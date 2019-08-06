@@ -1,0 +1,16 @@
+# Simple gitignore for my OS dev
+
+# ignore object files and binaries
+kernel/*.o
+boot/*.o
+drivers/*.o
+*.o
+*.bin
+
+# ignore final os image
+os-image
+
+# and this because make clean also removes it
+*.dis
+
+
