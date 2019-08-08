@@ -1,3 +1,6 @@
+#ifndef SCREEN_H
+#define SCREEN_H
+
 #define VIDEO_ADDRESS 0xb8000
 #define MAX_ROWS 25
 #define MAX_COLS 80
@@ -10,3 +13,5 @@
 void print_char ( char character , int col , int row , char attribute_byte );
 void print_str ( char * str , int col , int row , char attribute_byte );
 void clear_screen();
+
+#endif
