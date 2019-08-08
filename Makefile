@@ -10,8 +10,15 @@ HEADERS = $(wildcard kernel/*.h drivers/*.h)
 #Convert the *.c filenames to *.o to give a list of object files to build
 OBJ = ${C_SOURCES:.c=.o}
 
-# Default build target
+# Default target
+release:
+
+ifneq (,$(wildcard ./DEBUG)) # if DEBUG exist clean
+release: clean release/os-image
+	rm DEBUG
+else
 release: release/os-image
+endif
 
 # Run qemu emulator
 run: release
@@ -59,7 +66,10 @@ kernel.dis : kernel.bin
 debug: CFLAGS += -g -H
 debug: debug/os-image
 ifeq (,$(wildcard ./DEBUG)) # if it doesn't already exist create file named DEBUG
+debug: clean debug/os-image
 	touch DEBUG   				# simply signaling whether last build was debug or release
+else
+debug: debug/os-image
 endif
 	qemu-system-x86_64 -s -S -fda debug/os-image
 
