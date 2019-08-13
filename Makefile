@@ -26,6 +26,7 @@ run: release
 
 # Build OS image
 release/os-image: boot/boot_sect.bin kernel/kernel.bin
+	@mkdir -p $(@D)
 	cat $^ > release/os-image
 
 # Build the kernel binary
@@ -65,16 +66,14 @@ kernel.dis : kernel.bin
 # Build OS image and
 debug: CFLAGS += -g -H
 debug: debug/os-image
+#checking whether DEBUG flag exists
 ifeq (,$(wildcard ./DEBUG)) # if it doesn't already exist create file named DEBUG
-debug: clean debug/os-image
 	touch DEBUG   				# simply signaling whether last build was debug or release
-else
-debug: debug/os-image
 endif
-	qemu-system-x86_64 -s -S -fda debug/os-image
 
 # Debug version of the build
 debug/os-image: boot/boot_sect.bin kernel/kernel.bin
+	@mkdir -p $(@D)
 	cat $^ > debug/os-image
 
 # run qemu and listen for gdb connection on port 1234
@@ -87,3 +86,17 @@ debug/os-image: boot/boot_sect.bin kernel/kernel.bin
 #			(gdb) target remote localhost:1234
 run_debug: debug
 	qemu-system-x86_64 -s- -S -fda release/os-image
+
+#-------------------------------- TEST -----------------------------------------#
+#TEST_C_SOURCES = $(wildcard test/*.c drivers/*.c)
+#TEST_OBJ = ${TEST_C_SOURCES:.c=.o}
+#
+#
+#test/test-image: boot/boot_sect.bin test/test_kernel.bin
+#	cat $^ > $@
+#
+#test/test_kernel.bin: kernel/kernel_entry.o ${TEST_OBJ} kernel/util.o
+#	ld -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
+#
+#run_test: test/test-image
+#	qemu-system-x86_64 -fda $<
