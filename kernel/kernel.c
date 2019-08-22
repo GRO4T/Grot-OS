@@ -80,7 +80,6 @@ void main () {/*
 
     */
     clear_screen();
-    kprint("fslj");
     isr_install();
     /* Test the interrupts */
     __asm__ __volatile__("int $2");

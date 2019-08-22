@@ -36,7 +36,7 @@ release/os-image: boot/boot_sect.bin kernel/kernel.bin
 # Build the kernel binary
 # $^ is substituted with all of the target's dependancy files
 kernel/kernel.bin : kernel/kernel_entry.o ${OBJ}
-	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
+		 $(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Generic rule for compiling C code to an object file
 # For simplicity, C files depend on all header files
@@ -57,7 +57,7 @@ clean:
 	rm -rf kernel/kernel.bin boot/*.bin
 
 # Disassemble our kernel - might be useful for debugging.
-kernel.dis : kernel.bin
+kernel.dis : kernel/kernel.bin
 	ndisasm -b 32 $< > $@
 
 

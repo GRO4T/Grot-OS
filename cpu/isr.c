@@ -56,7 +56,7 @@ void isr_install() {/*
     set_idt_gate(29, (u32)isr29);
     set_idt_gate(30, (u32)isr30);
     set_idt_gate(31, (u32)isr31);
-
+/* 
     // Remap the PIC
     port_byte_out(0x20, 0x11);
     port_byte_out(0xA0, 0x11);
@@ -86,13 +86,15 @@ void isr_install() {/*
     set_idt_gate(45, (u32)irq13);
     set_idt_gate(46, (u32)irq14);
     set_idt_gate(47, (u32)irq15);
+    */
 
     set_idt(); // Load with ASM
 }
 
 /* To print the message which defines every exception */
 char *exception_messages[] = {
-    "Division By Zero",
+    //"Division By Zero",
+    "AAAAAA",
     "Debug",
     "Non Maskable Interrupt",
     "Breakpoint",
@@ -130,6 +132,45 @@ char *exception_messages[] = {
 };
 
 void isr_handler(registers_t r) {
+/* 
+char *exception_messages[] = {
+    "Division By Zero",
+    "Debug",
+    "Non Maskable Interrupt",
+    "Breakpoint",
+    "Into Detected Overflow",
+    "Out of Bounds",
+    "Invalid Opcode",
+    "No Coprocessor",
+
+    "Double Fault",
+    "Coprocessor Segment Overrun",
+    "Bad TSS",
+    "Segment Not Present",
+    "Stack Fault",
+    "General Protection Fault",
+    "Page Fault",
+    "Unknown Interrupt",
+
+    "Coprocessor Fault",
+    "Alignment Check",
+    "Machine Check",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved"
+};
+*/
     kprint("received interrupt: ");
     char s[3];
     int_to_ascii(r.int_no, s);
