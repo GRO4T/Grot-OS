@@ -1,14 +1,18 @@
 # Compilation setup
-CC = gcc
-CFLAGS = -m32 -fno-pic -ffreestanding # m32 (32bit), fno-pic(no Global Offset Table)
-                                      # freestanding (no Standard Library)
+# i386-elf cross compiler
+CC = /home/damian/opt/cross/bin/i386-elf-gcc
+# SUPPRESS THIS WARNINGS:
+# 		pointer-to-int-cast
+# 		int-conversion
+CFLAGS = -ffreestanding
+LD = /home/damian/opt/cross/bin/i386-elf-ld
 
 # Automatically generate lists of sources using wildcards
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h)
 
 #Convert the *.c filenames to *.o to give a list of object files to build
-OBJ = ${C_SOURCES:.c=.o}
+OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 # Default target
 release:
@@ -22,7 +26,7 @@ endif
 
 # Run qemu emulator
 run: release
-	qemu-system-x86_64 -fda release/os-image
+	qemu-system-i386 -fda release/os-image
 
 # Build OS image
 release/os-image: boot/boot_sect.bin kernel/kernel.bin
@@ -32,7 +36,7 @@ release/os-image: boot/boot_sect.bin kernel/kernel.bin
 # Build the kernel binary
 # $^ is substituted with all of the target's dependancy files
 kernel/kernel.bin : kernel/kernel_entry.o ${OBJ}
-	ld -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
+	$(LD) -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Generic rule for compiling C code to an object file
 # For simplicity, C files depend on all header files
@@ -58,7 +62,7 @@ kernel.dis : kernel.bin
 
 
 # Phony targets
-.PHONY: clean debug release run run_debug
+#.PHONY: clean debug release run run_debug
 
 
 #----------------------------- DEBUG ---------------------------------------------#

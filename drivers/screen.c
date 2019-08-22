@@ -15,6 +15,10 @@ void print_char ( char character , int col , int row , char attribute_byte );
  * Public Kernel API functions                            *
  **********************************************************/
 
+/*  Prints string at the cursor position with default attributes (WHITE_ON_BLACK) */
+void kprint(char * str){
+    print_str(str, WHITE_ON_BLACK);
+}
 
 /* Prints string at the cursor position with given attributes */
 void print_str(char * str, char attribute_byte){

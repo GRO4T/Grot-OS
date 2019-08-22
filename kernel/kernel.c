@@ -47,11 +47,14 @@ void main () {
 }
 */
 #include "../drivers/screen.h"
+#include "util.h"
+#include "../cpu/isr.h"
+#include "../cpu/idt.h"
 //#include "../test/screen_unit_test.h"
 
 #define NULL 0
 
-void main () {
+void main () {/*  
     // Create a pointer to a char , and point it to the first text cell of
     // video memory ( i . e . the top - left of the screen )
     char * video_memory = (char*) 0xb8000;
@@ -74,4 +77,12 @@ void main () {
             int x =2;
         }
     }
+
+    */
+    clear_screen();
+    kprint("fslj");
+    isr_install();
+    /* Test the interrupts */
+    __asm__ __volatile__("int $2");
+    __asm__ __volatile__("int $3");
 }
