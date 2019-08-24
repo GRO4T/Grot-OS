@@ -43,8 +43,7 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
-/* IRQ definitions */
-extern void irq0();
+/* IRQ definitions */ extern void irq0();
 extern void irq1();
 extern void irq2();
 extern void irq3();
@@ -60,6 +59,23 @@ extern void irq12();
 extern void irq13();
 extern void irq14();
 extern void irq15();
+
+#define IRQ0 32 // Timer
+#define IRQ1 33 // Keyboard
+#define IRQ2 34 // PIC 2
+#define IRQ3 35 // COM 2
+#define IRQ4 36 // COM 1
+#define IRQ5 37 // LPT 2
+#define IRQ6 38 // Floppy disk
+#define IRQ7 39 // LPT 1
+#define IRQ8 40 // Real Time Clock
+#define IRQ9 41 // General I/O
+#define IRQ10 42 // General I/O
+#define IRQ11 43 // General I/O
+#define IRQ12 44 // General I/O
+#define IRQ13 45 // Coprocessor
+#define IRQ14 46 // IDE Bus
+#define IRQ15 47 // IDE Bus
 
 /* Struct which aggregates many registers */
 typedef struct {

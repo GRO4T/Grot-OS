@@ -12,10 +12,12 @@ void main () {
     isr_install();
 
     asm volatile("sti");
-    register_interrupt_handler(33, handle_keyboard);
+    init_keyboard();
     /* Test the interrupts */
     //__asm__ __volatile__("int $2");
     //__asm__ __volatile__("int $3");
     //__asm__ __volatile__("int $33");
     kprint("waiting...");
 }
+
+

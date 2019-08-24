@@ -1,5 +1,5 @@
 #include "idt.h"
-//#include "isr.h"
+#include "isr.h"
 #include "../drivers/screen.h"
 #include "../drivers/ports.h"
 #include "../kernel/util.h"
@@ -119,8 +119,7 @@ char *exception_messages[] = {
     "Reserved",
     "Reserved",
     "Reserved",
-    "Reserved",
-    "Reserved",
+    "Reserved", "Reserved",
     "Reserved"
 };
 
@@ -135,14 +134,6 @@ void isr_handler(registers_t r) {
 }
 
 void irq_handler(registers_t r){
-    kprint("received hardware interrupt: ");
-    char s[3];
-    int_to_ascii(r.int_no, s);
-    kprint(s);
-    kprint("\n");
-    kprint(exception_messages[r.int_no]);
-    kprint("\n");
-
     /* After every interrupt we need to send an EOI to the PICs
      * or they will not send another interrupt again */
     if (r.int_no >= 40)
